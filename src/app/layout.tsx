@@ -33,6 +33,11 @@ export default function RootLayout({
     <html lang="en" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
+        <script
+          defer
+          src="https://cloud.umami.is/script.js"
+          data-website-id="6ec7571b-f02e-4be7-a14a-94bf657ef62c"
+        ></script>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <MantineProvider>
