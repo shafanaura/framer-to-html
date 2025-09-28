@@ -44,7 +44,6 @@ export async function POST(req: NextRequest) {
         "--disable-backgrounding-occluded-windows",
         "--disable-renderer-backgrounding",
       ],
-      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || undefined,
     });
     try {
       const limit = pLimit(3);

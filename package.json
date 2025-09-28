@@ -6,10 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint",
-    "install-chrome": "node scripts/install-chrome.js",
-    "test-chrome": "node scripts/test-chrome.js",
-    "postinstall": "node scripts/install-chrome.js"
+    "lint": "eslint"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
