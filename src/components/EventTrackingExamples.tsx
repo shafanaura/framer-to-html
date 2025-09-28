@@ -74,7 +74,6 @@ export const EventTrackingExamples = () => {
               trackButtonClick("demo_button_1", "examples");
               console.log("Button 1 clicked");
             }}
-            onMouseEnter={() => trackEngagement("hover", "demo_button_1")}
           >
             Track Button Click
           </Button>
@@ -84,7 +83,6 @@ export const EventTrackingExamples = () => {
               trackButtonClick("demo_button_2", "examples");
               handleFeatureToggle("dark_mode", true);
             }}
-            onMouseEnter={() => trackEngagement("hover", "demo_button_2")}
           >
             Track Feature Usage
           </Button>
@@ -98,12 +96,7 @@ export const EventTrackingExamples = () => {
           <TextInput
             placeholder="Enter search query"
             value={searchQuery}
-            onChange={(e) => {
-              setSearchQuery(e.target.value);
-              trackEngagement("focus", "search_input");
-            }}
-            onFocus={() => trackEngagement("focus", "search_input")}
-            onBlur={() => trackEngagement("blur", "search_input")}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
           <Button
             onClick={() => {
@@ -170,17 +163,13 @@ export const EventTrackingExamples = () => {
           </Button>
         </Stack>
 
-        {/* Engagement Tracking */}
+        {/* Engagement Tracking - Only View Events */}
         <Stack gap="xs">
           <Text size="sm" fw={500}>
-            Engagement Tracking:
+            Engagement Tracking (View Only):
           </Text>
-          <Button
-            onMouseEnter={() => trackEngagement("hover", "engagement_demo")}
-            onMouseLeave={() => trackEngagement("blur", "engagement_demo")}
-            onFocus={() => trackEngagement("focus", "engagement_demo")}
-          >
-            Hover/Focus to Track Engagement
+          <Button onClick={() => trackEngagement("view", "engagement_demo")}>
+            Track View Engagement
           </Button>
         </Stack>
       </Stack>
@@ -192,13 +181,11 @@ export const EventTrackingExamples = () => {
  * Hook for advanced tracking
  */
 export const useAdvancedTracking = () => {
-  // Track page visibility changes
+  // Track page visibility changes - only view events
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.hidden) {
-        trackEngagement("blur", "page", 0);
-      } else {
-        trackEngagement("focus", "page", 0);
+      if (!document.hidden) {
+        trackEngagement("view", "page", 0);
       }
     };
 
@@ -217,10 +204,10 @@ export const useAdvancedTracking = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Track beforeunload
+  // Track beforeunload - only view events
   useEffect(() => {
     const handleBeforeUnload = () => {
-      trackEngagement("blur", "page", Date.now());
+      trackEngagement("view", "page", Date.now());
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);

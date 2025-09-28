@@ -37,18 +37,18 @@ import {
 
 ## 📈 Event Categories
 
-| Event              | Description            | Data Tracked                                  |
-| ------------------ | ---------------------- | --------------------------------------------- |
-| `button_click`     | Button interactions    | button_name, location, timestamp              |
-| `download`         | File downloads         | file_name, file_type, source, timestamp       |
-| `link_share`       | Copy/paste/share links | action, url, timestamp                        |
-| `form_interaction` | Form events            | form_name, action, data, timestamp            |
-| `scroll`           | Scroll behavior        | scroll_percentage, page, timestamp            |
-| `engagement`       | User engagement        | action, element, duration, timestamp          |
-| `error`            | Error tracking         | error_type, error_message, context, timestamp |
-| `performance`      | Performance metrics    | metric, value, unit, timestamp                |
-| `feature_usage`    | Feature adoption       | feature, action, metadata, timestamp          |
-| `user_preference`  | User preferences       | preference, value, category, timestamp        |
+| Event              | Description                 | Data Tracked                                  |
+| ------------------ | --------------------------- | --------------------------------------------- |
+| `button_click`     | Button interactions         | button_name, location, timestamp              |
+| `download`         | File downloads              | file_name, file_type, source, timestamp       |
+| `link_share`       | Copy/paste/share links      | action, url, timestamp                        |
+| `form_interaction` | Form events                 | form_name, action, data, timestamp            |
+| `scroll`           | Scroll behavior             | scroll_percentage, page, timestamp            |
+| `engagement`       | User engagement (view only) | action, element, duration, timestamp          |
+| `error`            | Error tracking              | error_type, error_message, context, timestamp |
+| `performance`      | Performance metrics         | metric, value, unit, timestamp                |
+| `feature_usage`    | Feature adoption            | feature, action, metadata, timestamp          |
+| `user_preference`  | User preferences            | preference, value, category, timestamp        |
 
 ## 🎯 Key Features
 

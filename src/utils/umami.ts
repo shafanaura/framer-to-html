@@ -105,7 +105,7 @@ export const trackScroll = (scrollPercentage: number, page: string) => {
  * Event tracking for engagement metrics
  */
 export const trackEngagement = (
-  action: "hover" | "focus" | "blur" | "view",
+  action: "view",
   element: string,
   duration?: number
 ) => {

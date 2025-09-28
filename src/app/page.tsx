@@ -221,12 +221,7 @@ export default function Home() {
                 <TextInput
                   placeholder="https://your-site.framer.ai"
                   value={url}
-                  onChange={(e) => {
-                    setUrl(e.currentTarget.value);
-                    trackEngagement("focus", "url_input");
-                  }}
-                  onFocus={() => trackEngagement("focus", "url_input")}
-                  onBlur={() => trackEngagement("blur", "url_input")}
+                  onChange={(e) => setUrl(e.currentTarget.value)}
                   type="url"
                   autoCapitalize="off"
                   autoCorrect="off"
@@ -262,7 +257,6 @@ export default function Home() {
                   trackButtonClick("export_button", "main_form");
                   onSubmit();
                 }}
-                onMouseEnter={() => trackEngagement("hover", "export_button")}
                 size="lg"
                 radius="md"
                 style={{

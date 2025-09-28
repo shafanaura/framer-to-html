@@ -112,25 +112,19 @@ const handleScroll = useScrollTracking("home");
 
 ### 6. **Engagement Metrics**
 
-Track hover, focus, blur, and view events.
+Track view events only.
 
 ```typescript
-import { trackEngagement } from '../utils/umami';
-
-// Track hover
-<Button onMouseEnter={() => trackEngagement('hover', 'export_button')}>
-
-// Track focus
-<Input onFocus={() => trackEngagement('focus', 'url_input')}>
+import { trackEngagement } from "../utils/umami";
 
 // Track view
-trackEngagement('view', 'home');
+trackEngagement("view", "home");
 ```
 
 **Tracked data:**
 
-- `action`: Type of engagement (hover, focus, blur, view)
-- `element`: Element being interacted with
+- `action`: Type of engagement (view only)
+- `element`: Element being viewed
 - `duration`: Duration (for view)
 - `timestamp`: Action time
 
@@ -268,7 +262,7 @@ After implementation, you will see the following event categories in Umami:
 3. **link_share** - Copy/paste/share links
 4. **form_interaction** - Form interactions
 5. **scroll** - Scroll behavior
-6. **engagement** - Hover, focus, view events
+6. **engagement** - View events only
 7. **error** - All errors
 8. **performance** - Performance metrics
 9. **feature_usage** - Feature usage
