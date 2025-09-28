@@ -31,7 +31,13 @@ export async function POST(req: NextRequest) {
     const zip = new JSZip();
     const browser = await puppeteer.launch({
       headless: true,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-dev-shm-usage",
+        "--disable-web-security",
+        "--disable-features=VizDisplayCompositor",
+      ],
     });
     try {
       const limit = pLimit(3);
