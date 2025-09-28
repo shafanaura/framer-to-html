@@ -13,20 +13,67 @@ import {
   Badge,
   ThemeIcon,
 } from "@mantine/core";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { IconDownload, IconCode, IconSparkles } from "@tabler/icons-react";
+import {
+  trackButtonClick,
+  trackDownload,
+  trackFormInteraction,
+  trackError,
+  trackEngagement,
+  useScrollTracking,
+  useTimeTracking,
+} from "../utils/umami";
+import { ClipboardTracker } from "../components/ClipboardTracker";
 
 export default function Home() {
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Track scroll behavior
+  const handleScroll = useScrollTracking("home");
+
+  // Track time on page
+  const { trackTime, handleVisibilityChange } = useTimeTracking("home");
+
+  // Setup scroll and visibility tracking
+  useEffect(() => {
+    if (
+      typeof window !== "undefined" &&
+      handleScroll &&
+      handleVisibilityChange &&
+      trackTime
+    ) {
+      window.addEventListener("scroll", handleScroll);
+      document.addEventListener("visibilitychange", handleVisibilityChange);
+
+      // Track page view
+      trackEngagement("view", "home");
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        document.removeEventListener(
+          "visibilitychange",
+          handleVisibilityChange
+        );
+        trackTime(); // Track final time when leaving
+      };
+    }
+  }, [handleScroll, handleVisibilityChange, trackTime]);
+
   const onSubmit = useCallback(async () => {
     setError(null);
+
+    // Track form start
+    trackFormInteraction("export_form", "start", { url });
+
     if (!url) {
       setError("Enter a Framer URL");
+      trackError("validation_error", "URL is required", "export_form");
       return;
     }
+
     setLoading(true);
     try {
       const res = await fetch("/api/export", {
@@ -47,8 +94,18 @@ export default function Home() {
       link.click();
       link.remove();
       URL.revokeObjectURL(link.href);
+
+      // Track successful download
+      trackDownload(fileName, "zip", "framer_export");
+      trackFormInteraction("export_form", "submit", { url, success: true });
     } catch (e: any) {
-      setError(e?.message || "Unexpected error");
+      const errorMessage = e?.message || "Unexpected error";
+      setError(errorMessage);
+      trackError("export_error", errorMessage, "export_form");
+      trackFormInteraction("export_form", "abandon", {
+        url,
+        error: errorMessage,
+      });
     } finally {
       setLoading(false);
     }
@@ -56,6 +113,9 @@ export default function Home() {
 
   return (
     <Box style={{ minHeight: "100vh", position: "relative" }}>
+      {/* Clipboard tracking component */}
+      <ClipboardTracker />
+
       {/* Background decoration */}
       <Box
         style={{
@@ -161,7 +221,12 @@ export default function Home() {
                 <TextInput
                   placeholder="https://your-site.framer.ai"
                   value={url}
-                  onChange={(e) => setUrl(e.currentTarget.value)}
+                  onChange={(e) => {
+                    setUrl(e.currentTarget.value);
+                    trackEngagement("focus", "url_input");
+                  }}
+                  onFocus={() => trackEngagement("focus", "url_input")}
+                  onBlur={() => trackEngagement("blur", "url_input")}
                   type="url"
                   autoCapitalize="off"
                   autoCorrect="off"
@@ -193,7 +258,11 @@ export default function Home() {
 
               <Button
                 loading={loading}
-                onClick={onSubmit}
+                onClick={() => {
+                  trackButtonClick("export_button", "main_form");
+                  onSubmit();
+                }}
+                onMouseEnter={() => trackEngagement("hover", "export_button")}
                 size="lg"
                 radius="md"
                 style={{
